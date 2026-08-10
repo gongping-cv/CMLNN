@@ -1,27 +1,47 @@
 # Code for our paper: "Cross-Modal Control of Temporal Integration for Video Action Recognition: A CMLNN Framework"
 
-0. 本项目实验环境python 3.8，基本安装包括但不限于：
+1. Environment Setup
 
-pip install torch==2.0.1+cu117 torchvision==0.15.2+cu117 torchaudio==2.0.2 --extra-index-url 
-https://download.pytorch.org/whl/cu117  （根据实际情况修改）
+This project is developed with Python 3.8. The essential packages include (but are not limited to):
+
+pip install torch==2.0.1+cu117 torchvision==0.15.2+cu117 torchaudio==2.0.2 --extra-index-url https://download.pytorch.org/whl/cu117
 
 pip install transformers
 
 pip install opencv-contrib-python-headless
 
+Please adjust the PyTorch and CUDA versions according to your actual environment.
 
-1. 关于预训练权重
+2. Pre-trained Weights
 
-我们的CMLNN架构中使用TimeSformer作为backbone，需在项目下建立“./data/weights/timesformer_k400”目录，程序第一次运行时自动下载官方预训练权重相关的config.json 和 pytorch_model.bin到该目录下。
+Our CMLNN architecture adopts TimeSformer as the backbone.
 
+Create the directory ./data/weights/timesformer_k400 under the project root.
 
-2. 关于数据集的视频文件
+The program will automatically download the official pre-trained weights, including config.json and pytorch_model.bin, to this directory upon the first run.
 
-（1）本项目的处理方式是先将数据集中的视频文件转换成.npy，并对应生成optical-flow的.npy文件。（论文中有生成optical-flow的详细参数）
+3. Dataset Preparation
 
-（2）根据官方训练集/测试集/（如果有）验证集的划分，生成对应的list.txt，例如本项目中dataset_npy_keepall/ucf101_processed/train_RGB_npy_Split01_list.txt和test_RGB_npy_Split01_list.txt，便是生成的UCF101数据集split 1对应的文件清单。
+(1) Video Preprocessing
 
-（3）程序训练时导入train_RGB_npy_Split01_list.txt，根据其罗列的训练RGB.npy文件路径，加载输入数据。对于flow.npy，程序通过replace对应的RGB.npy路径进行加载。
+The pipeline of this project is as follows: convert the original video files of the dataset into .npy format, and simultaneously generate the corresponding optical-flow .npy files (detailed optical-flow extraction parameters are provided in the paper).
 
-（4）可以根据实际情况改成不同的数据集或不同形式的数据文件。
+(2) Generating File Lists
 
+According to the official training/validation/testing splits, generate the corresponding .txt list files.
+
+For example, in the dataset_npy_keepall/ucf101_processed/ directory:
+
+train_RGB_npy_Split01_list.txt – the training list for Split 1 of the UCF101 dataset.
+
+test_RGB_npy_Split01_list.txt – the corresponding test list.
+
+(3) Data Loading During Training
+
+During training, the program reads train_RGB_npy_Split01_list.txt and loads the input data based on the listed RGB .npy file paths.
+
+For optical-flow data, the program automatically replaces the RGB paths with the corresponding _FLOW.npy paths for loading.
+
+(4) Adapting to Other Datasets
+
+You can modify the code to use different datasets or different data file formats according to your needs, as long as the directory structure and list file format remain consistent.
