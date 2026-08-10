@@ -160,7 +160,7 @@ class FixedLRExperimentConfig:
                  enable_stage2: bool = True,
 
                  # Data
-                 data_root: str = '../mytest06/dataset_npy_keepall/ucf101_processed',
+                 data_root: str = './dataset_npy_keepall/ucf101_processed',
                  clip_len: int = 32,
                  train_num_clips: int = 1,
                  test_num_clips: int = 3,
